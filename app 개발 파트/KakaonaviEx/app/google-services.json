@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "112231033132",
+    "firebase_url": "https://kakaonaviex.firebaseio.com",
+    "project_id": "kakaonaviex",
+    "storage_bucket": "kakaonaviex.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112231033132:android:beed9f9291ef70b90fe489",
+        "android_client_info": {
+          "package_name": "com.example.kakaonaviex"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "112231033132-r11jnfchvq5oo9tlnp46k59pmdt0odkb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDuwbD5GYxty0eb4CMuAVCDvsW3onc1oiE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "112231033132-r11jnfchvq5oo9tlnp46k59pmdt0odkb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
