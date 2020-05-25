@@ -1,0 +1,8 @@
+sha1 : 8C:73:40:4E:A9:E8:31:10:3D:D2:B6:C4:DB:8F:0E:52:FA:3C:9C:E6
+
+xml메타데이터 넣을것. 암호코드랑 인증키
+
+ <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBSueqHIBfyIYChkrUBWeKG4hh98YGJnzA"/>
+

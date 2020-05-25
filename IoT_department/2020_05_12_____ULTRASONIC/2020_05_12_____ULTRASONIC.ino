@@ -30,10 +30,10 @@ void setup() {
   Serial.println("");
 
   // Wait for connection
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
+ // while (WiFi.status() != WL_CONNECTED) {
+   // delay(500);
+    //Serial.print(".");
+ // }
   Serial.println("");
   Serial.print("Connected to ");
   Serial.println(ssid);
