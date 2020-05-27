@@ -6,9 +6,10 @@ app.get('/', function(req, res){
    res.sendfile('index.html');//default page
 });
 
-http.listen(3000, function(){
-   console.log('listening on *:3000');
+http.listen(8080, function(){
+   console.log('listening on *:8080');
 });
+
 
 io.sockets.on('connection', function (socket){
    //원격에서 접속이 되면 기본 응답
