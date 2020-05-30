@@ -79,10 +79,10 @@ void matrix()
  // lc.setRow 함수는 행(Row) 기준으로 도트매트릭스를 제어 lc.setRow(matrix_number,Row,value)
  for(int j=0; j<8; j++)
  {
-   lc.setRow(3,j,m[j]); // 0번째 매트릭스에서 '매'출력
-   lc.setRow(2,j,t[j]); // 1번째 매트릭스에서 '트'출력
-   lc.setRow(1,j,r[j]); // 2번째 매트릭스에서 '릭'출력
-   lc.setRow(0,j,x[j]); // 3번째 매트릭스에서 '스'출력
+   lc.setRow(3,j,m[j]); // 0번째 매트릭스에서 'S'출력
+   lc.setRow(2,j,t[j]); // 1번째 매트릭스에서 'T'출력
+   lc.setRow(1,j,r[j]); // 2번째 매트릭스에서 'O'출력
+   lc.setRow(0,j,x[j]); // 3번째 매트릭스에서 'P'출력
  }
  delay(1000);
 }
