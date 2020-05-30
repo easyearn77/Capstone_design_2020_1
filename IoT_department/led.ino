@@ -9,7 +9,7 @@ http://www.devicemart.co.kr/
 #include "LedControl.h" // 라이브러리 사용 선언
 
 
-// Din 핀을 12번, ClK핀을 14번 CS핀을 13번에 연결, 매트릭스는 4개를 사용 선언
+// wemos d1 보드 기준으로 Din 핀을 12번(d12/miso/d6), ClK핀을 14번(d13/sck/d5) CS핀을 13번(d11/mosi/d7)에 연결, 매트릭스는 4개를 사용 선언
 LedControl lc=LedControl(12,14,13,4); 
 int num;
 
@@ -25,7 +25,7 @@ void setup()
 }
 
 
-// matrix 함수 선언
+// matrix 함수 선언, 운전자에게 경고 메세지 주기 위해 'STOP' 이라는 메세지를 나타내도록 구현함(메세지 내용은 추후 변경 가능성O) 
 void matrix()
 {
   // 'S'
