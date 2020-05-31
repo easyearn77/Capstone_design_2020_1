@@ -1,8 +1,7 @@
 /*
 8x32 dot matrix
-아래 링크에서 LedControl 라이브러리를 다운로드
-https://github.com/wayoda/LedControl
-http://www.devicemart.co.kr/
+Ino 열어 툴-> 라이브러리 관리 메뉴 들어가서 ledcontrol치고
+첫번째로 나오는것 설치
 */
 
 
@@ -98,3 +97,5 @@ void loop() {
 
 
 }
+
+//결과: led에 STOP이라는 문구가 깜박거림
