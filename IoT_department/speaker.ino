@@ -1,4 +1,6 @@
-//스피커 모양 앰프를 lm386에 꽂고 준비
+//스피커 모양 앰프를 lm386에 꽂고 준비,
+//스피커 모듈 vcc-> wemos 기기의 5v, gnd는 gnd, In은 tx1/d9핀에 연결
+
 
 int speaker = 2; //wemos d1의 tx1/d9 핀에 해당
 
