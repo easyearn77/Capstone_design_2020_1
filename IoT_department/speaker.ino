@@ -1,3 +1,5 @@
+//스피커 모양 앰프를 lm386에 꽂고 준비
+
 int speaker = 2; //wemos d1의 tx1/d9 핀에 해당
 
 void setup() {
