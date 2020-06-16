@@ -11,7 +11,7 @@ const int led = LED_BUILTIN;
 int speaker = 9;
 
 // 자신의 thingspeak 채널의 API key 입력
-String apiKey = "FINKISHU5YNUK5SZ";
+String apiKey = "FINKISHU5YNUK5SZ";//내 thingspeak 주소 만든후에 그 write key값 넣어줌
  
 // 업로드 알림 LED 설정 (아두이노 우노 On Board LED)
 //pin number
