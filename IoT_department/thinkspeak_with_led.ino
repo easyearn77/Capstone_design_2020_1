@@ -43,7 +43,7 @@ void setup() {
    /*AT Command 이용*/
   sendData("AT+RST\r\n", 2000, DEBUG); //reset module
   sendData("AT+CWMODE=1\r\n", 1000, DEBUG); //dual mode로 설정
-  sendData("AT+CWJAP=\"anygate\",\"30410011\"\r\n", 5000, DEBUG); //사용할 공유기 설정
+  sendData("AT+CWJAP=\"anygate\",\"(우리집공유기비번-비밀♡)\"\r\n", 5000, DEBUG); //사용할 공유기 설정-나는 우리집에서 코딩해서 우리집 와이파이로 
 }
  
 void loop() {
