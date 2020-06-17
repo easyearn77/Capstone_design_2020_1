@@ -11,7 +11,7 @@ const int led = LED_BUILTIN;
 int speaker = 9;
 
 // 자신의 thingspeak 채널의 API key 입력
-String apiKey = "FINKISHU5YNUK5SZ";//내 thingspeak 주소 만든후에 그 write key값 넣어줌
+String apiKey = "IPM9LRF6SF3R5GX7";//내 thingspeak 주소 만든후에 그 write key값 넣어줌
  
 // 업로드 알림 LED 설정 (아두이노 우노 On Board LED)
 //pin number
@@ -48,7 +48,7 @@ void setup() {
  
 void loop() {
   float duration, distance;
-  String gps="123";
+  String gps="99";
   // 초음파를 보낸다. 다 보내면 echo가 HIGH 상태로 대기하게 된다.
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(5);
@@ -63,6 +63,41 @@ void loop() {
     Serial.print(distance);
     Serial.println("cm // warning");
     Serial.println(gps);
+   
+   //tcp 연결 
+      String cmd = "AT+CIPSTART=\"TCP\",\"";
+    cmd += "184.106.153.149"; // api.thingspeak.com 접속 IP
+    cmd += "\",80";           // api.thingspeak.com 접속 포트, 80
+    esp8266.println(cmd);
+   
+    if(esp8266.find("Error")){
+      Serial.println("AT+CIPSTART error");
+      return;
+    }
+  
+    // GET 방식으로 보내기 위한 String, Data 설정
+    String getStr = "GET /update?api_key=";
+    getStr += apiKey;
+    getStr +="&field1=";
+    getStr += String(gps);
+    getStr += "\r\n\r\n";
+ 
+    // Send Data
+    cmd = "AT+CIPSEND=";
+    cmd += String(getStr.length());
+    esp8266.println(cmd);
+ 
+    if(esp8266.find(">")){
+      esp8266.print(getStr);
+    }
+    else{
+      esp8266.println("AT+CIPCLOSE");
+      // alert user
+      Serial.println("AT+CIPCLOSE");
+    }
+    
+    // Thingspeak 최소 업로드 간격 15초를 맞추기 위한 delay
+    delay(16000);  
 
   byte m[8]={
              B11111111,
@@ -162,41 +197,7 @@ tone(speaker, 349);
 delay(700);
 noTone(speaker);
 delay(300);//파
-  
-    // TCP 연결
-    String cmd = "AT+CIPSTART=\"TCP\",\"";
-    cmd += "184.106.153.149"; // api.thingspeak.com 접속 IP
-    cmd += "\",80";           // api.thingspeak.com 접속 포트, 80
-    esp8266.println(cmd);
-   
-    if(esp8266.find("Error")){
-      Serial.println("AT+CIPSTART error");
-      return;
-    }
-  
-    // GET 방식으로 보내기 위한 String, Data 설정
-    String getStr = "GET /update?api_key=";
-    getStr += apiKey;
-    getStr +="&field1=";
-    getStr += String(gps);
-    getStr += "\r\n\r\n";
- 
-    // Send Data
-    cmd = "AT+CIPSEND=";
-    cmd += String(getStr.length());
-    esp8266.println(cmd);
- 
-    if(esp8266.find(">")){
-      esp8266.print(getStr);
-    }
-    else{
-      esp8266.println("AT+CIPCLOSE");
-      // alert user
-      Serial.println("AT+CIPCLOSE");
-    }
-    
-    // Thingspeak 최소 업로드 간격 15초를 맞추기 위한 delay
-    delay(16000);  
+     
   }
   
 else
