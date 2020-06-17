@@ -11,7 +11,7 @@ const int led = LED_BUILTIN;
 int speaker = 9;
 
 // 자신의 thingspeak 채널의 API key 입력
-String apiKey = "IPM9LRF6SF3R5GX7";//내 thingspeak 주소 만든후에 그 write key값 넣어줌
+String apiKey = "IPM9LRF6SF3R5GX7";
  
 // 업로드 알림 LED 설정 (아두이노 우노 On Board LED)
 //pin number
@@ -21,7 +21,7 @@ LedControl lc=LedControl(4,6,5,4);   // Din 핀을 4번, ClK핀을 6번 CS핀을
 int num;
  
 
-SoftwareSerial esp8266(2, 3); // RX/TX 설정, serial 객체생성
+SoftwareSerial esp8266(2, 3); // TX/RX 설정, serial 객체생성
  
 void setup() {
   Serial.begin(9600); 
@@ -43,7 +43,7 @@ void setup() {
    /*AT Command 이용*/
   sendData("AT+RST\r\n", 2000, DEBUG); //reset module
   sendData("AT+CWMODE=1\r\n", 1000, DEBUG); //dual mode로 설정
-  sendData("AT+CWJAP=\"anygate\",\"(우리집공유기비번-비밀♡)\"\r\n", 5000, DEBUG); //사용할 공유기 설정-나는 우리집에서 코딩해서 우리집 와이파이로 
+  sendData("AT+CWJAP=\"studyzone\",\"studycafe1219\"\r\n", 5000, DEBUG); //사용할 공유기 설정
 }
  
 void loop() {
@@ -63,9 +63,10 @@ void loop() {
     Serial.print(distance);
     Serial.println("cm // warning");
     Serial.println(gps);
-   
-   //tcp 연결 
-      String cmd = "AT+CIPSTART=\"TCP\",\"";
+
+
+    // TCP 연결
+    String cmd = "AT+CIPSTART=\"TCP\",\"";
     cmd += "184.106.153.149"; // api.thingspeak.com 접속 IP
     cmd += "\",80";           // api.thingspeak.com 접속 포트, 80
     esp8266.println(cmd);
@@ -99,6 +100,7 @@ void loop() {
     // Thingspeak 최소 업로드 간격 15초를 맞추기 위한 delay
     delay(16000);  
 
+    //led알림
   byte m[8]={
              B11111111,
              B11000000,
@@ -197,7 +199,7 @@ tone(speaker, 349);
 delay(700);
 noTone(speaker);
 delay(300);//파
-     
+  
   }
   
 else
