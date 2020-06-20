@@ -9,7 +9,8 @@ server.listen(8080, () => {
 });
 
 var io = require('socket.io')(server);
-
+var longitudeData;
+var latitudeData;
 /*
 express 모듈을 이용하여  http 메소드 get방식으로 아두이노에서 데이터가 들어오면 쿼리를 분석하여
 위도와 경도만을 추출하여 리스트를 만들고 그 값을 다시 안드로이드에 emit 하여
