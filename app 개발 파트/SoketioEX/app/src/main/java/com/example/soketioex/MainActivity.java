@@ -1,12 +1,16 @@
 package com.example.soketioex;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +22,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,7 +37,7 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     Socket socket;
     Button button;
@@ -39,6 +50,13 @@ public class MainActivity extends AppCompatActivity {
     double serverlongitude;
     double serverlatitude;
 
+    SoundPool mPool;
+    int mDdok;
+
+    private FragmentManager fragmentManager;
+    private MapFragment mapFragment;
+
+
 
 
 
@@ -47,6 +65,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+        mDdok = mPool.load(this, R.raw.warning, 1);
+
+        fragmentManager = getFragmentManager();
+        mapFragment = (MapFragment)fragmentManager.findFragmentById(R.id.googleMap);
+        mapFragment.getMapAsync(this);
+
+
 
         txtResult = (TextView)findViewById(R.id.txtResult);
         txtResult1 = (TextView)findViewById(R.id.txtResult1);
@@ -91,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 // 가끔은 연결조차 안될 때가 있습니다. 서버 쪽에서 socketio메세지가 왔다고도 뜨지 않는 경우가 있습니다. 이것은 uri부분에 서버의 포트를 적냐 안적냐의 차이로 생각됩니다.(잘 모르겠습니다.)
 // 물론 서버쪽의 js파일도 서버부분 코드를 보면 아시겠지만 이 밑 부분의 코드와 연동될 수 있게 나름 작성을 했으니 연결이 되면 서버 쪽에서 gps값을 emit으로 넘겨주었어야 합니다.
        try {
-            socket = IO.socket("http://172.30.1.12:8080"); // http:// + 현재 와이파이 ip + :8080
+            socket = IO.socket("http://192.168.0.46:8080"); // http:// + 현재 와이파이 ip + :8080. 여기에 집 wifi넣으시면 됩니다.
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -156,6 +183,12 @@ public class MainActivity extends AppCompatActivity {
 
                             if(distance <= 100.00){
                                 Toast.makeText(getApplicationContext(), "100m 이내에 보행자가 도로에 있습니다", Toast.LENGTH_LONG).show();
+                                mPool.play(mDdok, 1, 1, -1, 0,1);
+                                Vibrator vibe = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                                vibe.vibrate(500);
+
+
+
 
                             } // 측정한 거리가 100m이내이면 토스트 메세지를 띄웁니다. 이 알림 부분은 소리가 다게 한다든지 하여 좀더 보강될 예정입니다.
 
@@ -199,6 +232,24 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) { // 구글맵이 준비되면 호출.
+        LatLng location = new LatLng(37.328707, 127.116459);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.title("코소나 팀");
+        markerOptions.snippet("오병설"); // 이런거는 신경안쓰셔도 됩니다. 바꾸고싶으면 바꾸셔도됩니다.
+        markerOptions.position(location);
+        googleMap.addMarker(markerOptions);
+
+        // googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 16));
+        // 16배율을 쓰겠다는 말.
+
+
+
+    }
+
+
 
     final LocationListener gpsLocationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
@@ -230,4 +281,6 @@ public class MainActivity extends AppCompatActivity {
         public void onProviderDisabled(String provider) {
         }
     };
+
+
 }
