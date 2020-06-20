@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #define DEBUG true
 
-// 자신의 thingspeak 채널의 API key 입력
-String apiKey = "NQ6FY3YPDG0FPVK0";
  
 // 업로드 알림 LED 설정 (아두이노 우노 On Board LED)
 int ledPin = 13;
@@ -42,6 +40,7 @@ void loop() {
   // HIGH 였을 때 시간(초음파가 보냈다가 다시 들어온 시간)을 가지고 거리를 계산 한다.
   distance = ((float)(340 * duration) / 10000) / 2;  
 
+  //안전바 사이의 거리(50cm)보다 작게 되면 서버에 위치를 전송합니다.
   if(distance<50||distance>2000){
     Serial.print(distance);
     Serial.println("cm // warning");
@@ -52,8 +51,8 @@ void loop() {
     
     // TCP 연결
     String cmd = "AT+CIPSTART=\"TCP\",\"";
-    cmd += "192.168.1.102"; // api.thingspeak.com 접속 IP
-    cmd += "\",8080";           // api.thingspeak.com 접속 포트, 80
+    cmd += "192.168.1.102"; // 서버 IP(local-host사용)
+    cmd += "\",8080";           // 포트: 8080
     esp8266.println(cmd);
    
     if(esp8266.find("Error")){
@@ -65,9 +64,9 @@ void loop() {
     String getStr = "GET /update?=";
     //getStr += apiKey;
     getStr +="&longitude=";
-    getStr += String(longitude);
+    getStr += String(longitude);//경도
     getStr +="&latitude=";
-    getStr += String(latitude);
+    getStr += String(latitude);//위도
     getStr += "\r\n\r\n";
  
     // Send Data
@@ -84,7 +83,7 @@ void loop() {
       Serial.println("AT+CIPCLOSE");
     }
     
-    // Thingspeak 최소 업로드 간격 15초를 맞추기 위한 delay
+    // 업로드 간격 1초를 맞추기 위한 delay
     delay(1000);  
   }
 }
